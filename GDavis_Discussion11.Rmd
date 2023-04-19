@@ -1,0 +1,44 @@
+---
+title: "Data 607 - Discussion 11"
+author: "Glen Dale Davis"
+date: "2023-04-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Allrecipes.com's Recommender System:
+
+[Allrecipes.com](https://www.allrecipes.com/) is a site I visit frequently when I am looking to recreate an unfancy dish from my childhood. Think “salads” that don’t have any lettuce in them, casseroles made with condensed soup, or no-bake cookies. Their main recommender system is a section called “You’ll Also Love" that appears at the bottom of each recipe's page.
+
+## Scenario Design Analysis:
+
+### Who Are Their Target Users?
+
+The target user of Allrecipes.com is home cooks in general, but the site has particular appeal for a few different kinds of users. Having read a lot of reviews for various recipes on the site over the years, I think many of the users are people like myself who are nostalgic for recipes they grew up with. You'll see variations of "Just like my grandma used to make!" or "My mother would not approve" on just about any recipe. But there are many other kinds of Allrecipes.com users, and they include: users on a budget, users short on time, users with large families, users with ingredients they need to get rid of, and users who just need to bring something to a potluck.
+
+### What Are Their Target Users' Key Goals?
+
+The target user list above is not exhaustive, but it does capture a lot of the key goals behind using a site like Allrecipes.com. You go there to find cheap, easy, crowd-pleasing recipes that can be put together quickly, often from a short list of ingredients you already have in your pantry or refrigerator. And the recipes get bonus points if they remind you of home, family, or childhood. 
+
+### How Does Allrecipes.com Help Their Target Users Achieve Their Key Goals?
+
+Allrecipes.com's "You'll Also Love" recommender system aligns with their target users’ key goals in many ways. For instance, when I search for chicken and dumplings and click on the recipe whose picture most resembles the version that I remember loving, the recommender system exclusively shows me other chicken and dumplings recipes. This might be slightly different if I were a user that rated and reviewed recipes, but since I rarely participate in that kind of consumer behavior, I have to assume recipes with similar names have the highest priority of being recommended no matter what you've rated/reviewed.
+
+It's important that recipes with similar names are recommended first because when you do your initial search, the names of the recipes returned can be quite similar (so much so that you often see Roman numerals in them), and the photos are often amateur. So it can take a lot of clicks to find the recipe that most aligns with your goals, and you'll want other options to be readily available the second you determine the recipe you clicked on isn’t for you. Allrecipes.com makes that very possible by filling the top recommendations with recipes with similar names.
+
+## Reverse Engineering Attempt:
+
+Some of the words in a recipe's name appear to be deprioritized. For instance, the chicken and dumplings recipe I clicked on had "Super Easy" in the name, and variations of that phrase are very common on Allrecipes.com. The recommender system probably ignores those common phrases and focuses on the nouns in the name on purpose. That way, it doesn’t just show me any easy recipe.
+
+We know [from Wikipedia](https://en.wikipedia.org/wiki/Allrecipes.com) that the co-founders of Allrecipes.com were originally inspired to create the site because they "had trouble finding their favorite cookie recipes on the Internet." So the first user they had in mind was someone like me, someone who enjoyed something prepared a certain way in the past and now wants to cook that dish that exact same way again. So they knew people would typically have to look through a lot of recipes to find the right one, and the way the recommender system works keeps that in mind.
+
+## Improvement Suggestions:
+
+One improvement they might consider is that if you clicked on a recipe that declared itself easy, other recipes with easy in the name should come first in the list of recommendations if the nouns in both names also match. So all the easy recipes would be clustered together if easy is a factor in what you first clicked on.
+
+If the recommendations included say side dishes people commonly like to eat with what you search for, other recipes submitted by the same community member, or other recipes popular with people who rated/reviewed this recipe highly, it might be helpful to other kinds of cooks. But that would actually slow the users I first identified down. They’re more likely to find what they want and less likely to run out of options before they do with the current system. So the recommendation system might benefit from always including at least one or two recipes that are not similar name matches, but it should still heavily favor those close name matches above other worthwhile recommendations. This can be accomplished by giving weight levels to recommendations based on how the system came up with them. Name matches might be weighted 0.7, while appropriate sides/recipes from the same community member/other recipes popular with people who rated/reviewed that recipe might each be weighted 0.1. So you always get some mix, not just exact or similar name matches.
+
+Another improvement could be efforts to bring users out of their cuisine silos and provide them with the joy of discovering something new. So if you searched for a Tex-Mex dish, perhaps some of the "You'll Also Love" recommendations could be dishes from other South American cuisines. This can be accomplished by giving the distance between cuisines a measure and always providing at least a couple of recommendations that exist beyond, but close to, the group the dish you searched for is in. We would just have to adjust the weights of possible recommendations again.
